@@ -23,7 +23,7 @@ public class OrderDeliveryDbContext : DbContext
             entity.Property(e => e.SenderAddress).IsRequired().HasMaxLength(200);
             entity.Property(e => e.ReceiverCity).IsRequired().HasMaxLength(100);
             entity.Property(e => e.ReceiverAddress).IsRequired().HasMaxLength(200);
-            entity.Property(e => e.Weight).HasColumnType("decimal(18,2)");
+            entity.Property(e => e.Weight).IsRequired().HasPrecision(10, 3);
         });
 
         modelBuilder.Entity<Order>().ToTable("Orders");

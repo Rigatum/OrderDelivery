@@ -23,9 +23,9 @@ public class CreateOrderVM
     public string ReceiverAddress { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "Вес груза обязателен для заполнения")]
-    [Range(0.1, double.MaxValue, ErrorMessage = "Вес груза должен быть больше 0")]
+    [Range(0.001, float.MaxValue, ErrorMessage = "Вес груза должен быть больше 0")]
     [Display(Name = "Вес груза (кг)")]
-    public decimal Weight { get; set; }
+    public float Weight { get; set; }
 
     [Required(ErrorMessage = "Дата забора груза обязательна для заполнения")]
     [Display(Name = "Дата забора груза")]

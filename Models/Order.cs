@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace OrderDelivery.Models;
 
 public class Order: Entity
@@ -7,6 +9,8 @@ public class Order: Entity
     public string SenderAddress { get; set; } = string.Empty;
     public string ReceiverCity { get; set; } = string.Empty;
     public string ReceiverAddress { get; set; } = string.Empty;
-    public decimal Weight { get; set; }
+    
+    [Column(TypeName = "decimal(18, 3)")]
+    public float Weight { get; set; }
     public DateTime PickupDate { get; set; }
 }
