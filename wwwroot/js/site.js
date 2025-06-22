@@ -8,7 +8,7 @@
         success: function(html) {
             const modalBody = $(html).find('.modal-body').html();
 
-            $('#orderModal .modal-body')[0].innerHTML = modalBody;
+            $('#orderModal .modal-body').html(modalBody);
 
             $('#orderModal').modal('show');
         },
