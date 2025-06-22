@@ -1,20 +1,25 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using OrderDelivery.DataAccessLayer.Repositories;
 using OrderDelivery.Models;
 
 namespace OrderDelivery.Controllers;
 
-public class HomeController : Controller
+public class OrderController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly ILogger<OrderController> _logger;
+    private readonly IOrderRepository _orderRepository;
 
-    public HomeController(ILogger<HomeController> logger)
+    public OrderController(ILogger<OrderController> logger, IOrderRepository orderRepository)
     {
         _logger = logger;
+        _orderRepository = orderRepository;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
+        var test = await _orderRepository.GetAllAsync();
+
         return View();
     }
 
