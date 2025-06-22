@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace OrderDelivery.Models.ViewModels;
-public class CreateOrderVM
+public class OrderVM
 {
+    public Guid Id { get; set; }
+    
     [Display(Name = "Номер заказа")]
     public string OrderNumber { get; set; } = string.Empty;
     

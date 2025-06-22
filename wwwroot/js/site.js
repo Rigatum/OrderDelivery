@@ -1,4 +1,19 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function OpenOrderDetailModal(orderId, orderNumber)
+{
+    $('#orderModal .modal-title').text(`Заказ #${orderNumber}`);
 
-// Write your JavaScript code.
+    $.ajax({
+        url: `/Order/OrderDetails/${orderId}`,
+        type: 'GET',
+        success: function(html) {
+            const modalBody = $(html).find('.modal-body').html();
+
+            $('#orderModal .modal-body')[0].innerHTML = modalBody;
+
+            $('#orderModal').modal('show');
+        },
+        error: function() {
+            alert('Произошла ошибка');
+        }
+    });
+}

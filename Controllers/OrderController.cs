@@ -20,9 +20,11 @@ public class OrderController : Controller
         _unitOfWork = unitOfWork;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var indexVM = await _orderService.InitIndexVMAsync();
+
+        return View(indexVM);
     }
 
     public IActionResult Create()
@@ -32,11 +34,11 @@ public class OrderController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(CreateOrderVM createOrderVM)
+    public async Task<IActionResult> Create(OrderVM createOrderVM)
     {
         if (ModelState.IsValid)
         {
-            await _orderService.CreateOrder(createOrderVM);
+            await _orderService.CreateOrderAsync(createOrderVM);
 
             await _unitOfWork.SaveChangesAsync();
 
@@ -44,6 +46,22 @@ public class OrderController : Controller
         }
 
         return View(createOrderVM);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> OrderDetails(Guid id)
+    {
+        try
+        {
+            var order = await _orderService.GetOrderAsync(id);
+
+            return View(order);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Ошибка при получении деталей заказа");
+            return StatusCode(500);
+        }
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

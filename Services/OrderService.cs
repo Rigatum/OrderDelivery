@@ -12,14 +12,30 @@ public class OrderService : IOrderService
         _unitOfWork = unitOfWork;
     }
 
-    public CreateOrderVM InitOrderCreateVM()
+    public async Task<IndexVM> InitIndexVMAsync()
     {
-        var createOrderVM = new CreateOrderVM();
+        var orders = (await _unitOfWork.Orders.GetAllAsync())
+            .OrderByDescending(o => o.DateCreated);
 
-        return createOrderVM;
+        var indexVM = new IndexVM()
+        {
+            Orders = orders.Select(o => new OrderVM()
+            {
+                Id = o.Id,
+                OrderNumber = o.OrderNumber,
+                SenderCity = o.SenderCity,
+                SenderAddress = o.SenderAddress,
+                ReceiverCity = o.ReceiverCity,
+                ReceiverAddress = o.ReceiverAddress,
+                Weight = o.Weight,
+                PickupDate = o.PickupDate
+            })
+        };
+
+        return indexVM;
     }
 
-    public async Task<CreateOrderVM> CreateOrder(CreateOrderVM createOrderVM)
+    public async Task<OrderVM> CreateOrderAsync(OrderVM createOrderVM)
     {
         var order = new Order()
         {
@@ -35,5 +51,28 @@ public class OrderService : IOrderService
         await _unitOfWork.Orders.AddAsync(order);
 
         return createOrderVM;
+    }
+
+    public async Task<OrderVM> GetOrderAsync(Guid id)
+    {
+        var order = await _unitOfWork.Orders.GetByIdAsync(id);
+
+        if (order == null)
+        {
+            throw new Exception("Заказ не найден");
+        }
+
+        var orderVM = new OrderVM()
+        {
+            OrderNumber = order.OrderNumber,
+            SenderCity = order.SenderCity,
+            SenderAddress = order.SenderAddress,
+            ReceiverCity = order.ReceiverCity,
+            ReceiverAddress = order.ReceiverAddress,
+            Weight = order.Weight,
+            PickupDate = order.PickupDate
+        };
+
+        return orderVM;
     }
 }
