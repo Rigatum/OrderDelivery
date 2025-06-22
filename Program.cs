@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using OrderDelivery.DataAccessLayer.Context;
-using OrderDelivery.Extensions;
+using OrderDelivery.Utils.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<OrderDeliveryDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddServices();
 
 var app = builder.Build();
 
