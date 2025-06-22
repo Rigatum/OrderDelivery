@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.EntityFrameworkCore;
 using OrderDelivery.DataAccessLayer.Context;
 using OrderDelivery.Utils.Extensions;
@@ -11,13 +12,6 @@ builder.Services.AddDbContext<OrderDeliveryDbContext>(options =>
 builder.Services.AddServices();
 
 var app = builder.Build();
-
-var localizationOptions = new RequestLocalizationOptions()
-    .SetDefaultCulture("ru")
-    .AddSupportedCultures("ru")
-    .AddSupportedUICultures("ru");
-
-app.UseRequestLocalization(localizationOptions);
 
 app.ApplyMigrations();
 

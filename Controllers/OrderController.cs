@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using OrderDelivery.DataAccessLayer;
 using OrderDelivery.Models.ViewModels;
 using OrderDelivery.Services;
 
@@ -9,11 +10,14 @@ public class OrderController : Controller
 {
     private readonly ILogger<OrderController> _logger;
     private readonly IOrderService _orderService;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public OrderController(ILogger<OrderController> logger, IOrderService orderService)
+    public OrderController(ILogger<OrderController> logger, IOrderService orderService,
+        IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _orderService = orderService;
+        _unitOfWork = unitOfWork;
     }
 
     public IActionResult Index()
@@ -21,11 +25,9 @@ public class OrderController : Controller
         return View();
     }
 
-    public async Task<IActionResult> Create()
+    public IActionResult Create()
     {
-        var orderCreateVM = await _orderService.InitOrderCreateVM();
-
-        return View(orderCreateVM);
+        return View();
     }
 
     [HttpPost]
@@ -36,10 +38,12 @@ public class OrderController : Controller
         {
             await _orderService.CreateOrder(createOrderVM);
 
+            await _unitOfWork.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
-        return RedirectToAction(nameof(Index));
+        return View(createOrderVM);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -4,6 +4,6 @@ namespace OrderDelivery.Services;
 
 public interface IOrderService
 {
-    Task<CreateOrderVM> InitOrderCreateVM();
+    CreateOrderVM InitOrderCreateVM();
     Task<CreateOrderVM> CreateOrder(CreateOrderVM createOrderVM);
 }

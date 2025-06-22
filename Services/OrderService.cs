@@ -1,4 +1,4 @@
-using OrderDelivery.DataAccessLayer.Repositories;
+using OrderDelivery.DataAccessLayer;
 using OrderDelivery.Models;
 using OrderDelivery.Models.ViewModels;
 
@@ -6,17 +6,15 @@ namespace OrderDelivery.Services;
 
 public class OrderService : IOrderService
 {
-    private readonly IOrderRepository _orderRepository;
-    public OrderService(IOrderRepository orderRepository)
+    private readonly IUnitOfWork _unitOfWork;
+    public OrderService(IUnitOfWork unitOfWork)
     {
-        _orderRepository = orderRepository;
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task<CreateOrderVM> InitOrderCreateVM()
+    public CreateOrderVM InitOrderCreateVM()
     {
         var createOrderVM = new CreateOrderVM();
-
-        var test = await _orderRepository.GetAllAsync();
 
         return createOrderVM;
     }
@@ -34,8 +32,7 @@ public class OrderService : IOrderService
             PickupDate = createOrderVM.PickupDate
         };
 
-        await _orderRepository.AddAsync(order);
-        await _orderRepository.SaveChangesAsync();
+        await _unitOfWork.Orders.AddAsync(order);
 
         return createOrderVM;
     }

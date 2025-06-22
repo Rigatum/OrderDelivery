@@ -26,7 +26,7 @@ public class CreateOrderVM
     [Range(0.1, double.MaxValue, ErrorMessage = "Вес груза должен быть больше 0")]
     [Display(Name = "Вес груза (кг)")]
     public decimal Weight { get; set; }
-    
+
     [Required(ErrorMessage = "Дата забора груза обязательна для заполнения")]
     [Display(Name = "Дата забора груза")]
     [DataType(DataType.Date)]
