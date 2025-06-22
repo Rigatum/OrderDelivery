@@ -23,7 +23,7 @@ public class OrderController : Controller
         return View();
     }
 
-    public IActionResult Privacy()
+    public IActionResult Order()
     {
         return View();
     }

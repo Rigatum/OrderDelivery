@@ -15,4 +15,12 @@
     </PackageReference>
   </ItemGroup>
 
+  <Target Name="NpmInstall" BeforeTargets="Build">
+    <Exec Command="npm install" />
+  </Target>
+
+  <Target Name="GruntBuild" AfterTargets="NpmInstall">
+    <Exec Command="grunt" />
+  </Target>
+
 </Project>
