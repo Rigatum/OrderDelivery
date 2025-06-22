@@ -1,4 +1,4 @@
-namespace OrderDelivery.Models;
+namespace OrderDelivery.Models.ViewModels;
 
 public class ErrorVM
 {

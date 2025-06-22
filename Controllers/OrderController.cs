@@ -1,31 +1,45 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using OrderDelivery.DataAccessLayer.Repositories;
-using OrderDelivery.Models;
+using OrderDelivery.Models.ViewModels;
+using OrderDelivery.Services;
 
 namespace OrderDelivery.Controllers;
 
 public class OrderController : Controller
 {
     private readonly ILogger<OrderController> _logger;
-    private readonly IOrderRepository _orderRepository;
+    private readonly IOrderService _orderService;
 
-    public OrderController(ILogger<OrderController> logger, IOrderRepository orderRepository)
+    public OrderController(ILogger<OrderController> logger, IOrderService orderService)
     {
         _logger = logger;
-        _orderRepository = orderRepository;
+        _orderService = orderService;
     }
 
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
     {
-        var test = await _orderRepository.GetAllAsync();
-
         return View();
     }
 
-    public IActionResult Order()
+    public async Task<IActionResult> Create()
     {
-        return View();
+        var orderCreateVM = await _orderService.InitOrderCreateVM();
+
+        return View(orderCreateVM);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(CreateOrderVM createOrderVM)
+    {
+        if (ModelState.IsValid)
+        {
+            await _orderService.CreateOrder(createOrderVM);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        return RedirectToAction(nameof(Index));
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -12,6 +12,13 @@ builder.Services.AddServices();
 
 var app = builder.Build();
 
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture("ru")
+    .AddSupportedCultures("ru")
+    .AddSupportedUICultures("ru");
+
+app.UseRequestLocalization(localizationOptions);
+
 app.ApplyMigrations();
 
 // Configure the HTTP request pipeline.
