@@ -61,8 +61,8 @@
                             <div class="col-md-6 mb-3">
                                 <label asp-for="PickupDate" class="form-label"></label>
                                 <input asp-for="PickupDate" type="date" class="form-control" 
-                                       value="@DateTime.Now.ToString("yyyy-MM-dd")"
-                                       min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                       value="@DateTime.Now.ToString("dd-MM-yyyy")"
+                                       min="@DateTime.Now.ToString("dd-MM-yyyy")" />
                                 <span asp-validation-for="PickupDate" class="text-danger"></span>
                             </div>
                         </div>
