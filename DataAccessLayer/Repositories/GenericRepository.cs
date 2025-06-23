@@ -21,24 +21,35 @@ public class GenericRepository<T> : IGenericRepository<T> where T : Entity
         return await _dbSet.FindAsync(id);
     }
 
-    public virtual async Task<IEnumerable<T>> GetAllAsync()
+    public virtual async Task<IEnumerable<T>> GetAllAsync(bool isAsNoTracking = false)
     {
-        return await _dbSet.ToListAsync();
+        return isAsNoTracking
+            ? await _dbSet.AsNoTracking().ToListAsync()
+            : await _dbSet.ToListAsync();
     }
 
-    public virtual async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+    public virtual async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate,
+        bool isAsNoTracking = false)
     {
-        return await _dbSet.Where(predicate).ToListAsync();
+        return isAsNoTracking
+            ? await _dbSet.AsNoTracking().Where(predicate).ToListAsync()
+            : await _dbSet.Where(predicate).ToListAsync();
     }
 
-    public virtual async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
+    public virtual async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate,
+        bool isAsNoTracking = false)
     {
-        return await _dbSet.FirstOrDefaultAsync(predicate);
+        return isAsNoTracking
+            ? await _dbSet.AsNoTracking().FirstOrDefaultAsync(predicate)
+            : await _dbSet.FirstOrDefaultAsync(predicate);
     }
 
-    public virtual async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)
+    public virtual async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate,
+        bool isAsNoTracking = false)
     {
-        return await _dbSet.AnyAsync(predicate);
+        return isAsNoTracking
+            ? await _dbSet.AsNoTracking().AnyAsync(predicate)
+            : await _dbSet.AnyAsync(predicate);
     }
 
     public virtual async Task AddAsync(T entity)

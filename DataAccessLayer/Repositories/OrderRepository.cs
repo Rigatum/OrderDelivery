@@ -12,5 +12,5 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
     }
 
     public async Task<bool> IsExistOrderNumber(string orderNumber) =>
-        await _dbSet.AnyAsync(o => o.OrderNumber == orderNumber);
+        await _dbSet.AsNoTracking().AnyAsync(o => o.OrderNumber == orderNumber);
 }
