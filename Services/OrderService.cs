@@ -15,7 +15,7 @@ public class OrderService : IOrderService
     public async Task<IndexVM> InitIndexVMAsync()
     {
         var orders = (await _unitOfWork.Orders.GetAllAsync(isAsNoTracking: true))
-            .OrderByDescending(o => o.DateCreated);
+            .OrderByDescending(o => o.DateCreatedUtc);
 
         var indexVM = new IndexVM()
         {

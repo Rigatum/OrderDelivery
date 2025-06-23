@@ -3,6 +3,6 @@ namespace OrderDelivery.Models;
 public abstract class Entity
 {
     public Guid Id { get; set; }
-    public DateTime DateCreated { get; set; }
-    public DateTime DateModified { get; set; }
+    public DateTime DateCreatedUtc { get; set; }
+    public DateTime DateModifiedUtc { get; set; }
 }
