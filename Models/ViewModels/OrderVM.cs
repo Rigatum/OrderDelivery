@@ -32,5 +32,5 @@ public class OrderVM
     [Required(ErrorMessage = "Дата забора груза обязательна для заполнения")]
     [Display(Name = "Дата забора груза")]
     [DataType(DataType.Date)]
-    public DateTime PickupDate { get; set; }
+    public DateTime PickupDate { get; set; } = DateTime.Now;
 }
