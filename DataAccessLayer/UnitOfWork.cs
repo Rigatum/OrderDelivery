@@ -14,8 +14,8 @@ public class UnitOfWork : IUnitOfWork
         _context = context;
     }
 
-    public IGenericRepository<Order> Orders => 
-        new GenericRepository<Order>(_context);
+    public IOrderRepository Orders => 
+        new OrderRepository(_context);
 
     public async Task<bool> SaveChangesAsync()
     {

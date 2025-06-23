@@ -75,4 +75,21 @@ public class OrderService : IOrderService
 
         return orderVM;
     }
+
+    public async Task<string> GetOrderNumberAsync()
+    {
+        string orderNumber;
+        bool isExistOrderNumber;
+        do
+        {
+            orderNumber = GenerateOrderNumber();
+            isExistOrderNumber = await _unitOfWork.Orders.IsExistOrderNumber(orderNumber);
+        }
+        while (isExistOrderNumber);
+
+        return orderNumber;
+    }
+
+    private string GenerateOrderNumber() =>
+        DateTime.Now.ToString("yyMMdd") + Guid.NewGuid().ToString("N").Substring(0, 6).ToUpper();
 }

@@ -1,6 +1,6 @@
 ﻿function OpenOrderDetailModal(orderId, orderNumber)
 {
-    $('#orderModal .modal-title').text(`Заказ #${orderNumber}`);
+    $('#orderModal .modal-title').text(`Заказ №${orderNumber}`);
 
     $.ajax({
         url: `/Order/OrderDetails/${orderId}`,

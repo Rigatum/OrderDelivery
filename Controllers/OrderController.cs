@@ -27,9 +27,12 @@ public class OrderController : Controller
         return View(indexVM);
     }
 
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
-        return View();
+        var orderVM = new OrderVM();
+        orderVM.OrderNumber = await _orderService.GetOrderNumberAsync();
+
+        return View(orderVM);
     }
 
     [HttpPost]
