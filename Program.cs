@@ -10,6 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<OrderDeliveryDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddServices();
+builder.WebHost.UseUrls("http://*:80");
 
 var app = builder.Build();
 
