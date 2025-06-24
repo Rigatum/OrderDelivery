@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  web:
+    container_name: order-delivery-web
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+    depends_on:
+      - db
+  db:
+    container_name: order-delivery-db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: P@ssw0rd
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserverdata:/var/opt/mssql
+
+volumes:
+  sqlserverdata:
